@@ -478,7 +478,7 @@ classdef libiio_if < handle
             end
 
             % Read the data
-            diff_bits = 20;
+            diff_bits = 24;
             calllib(obj.libname, 'iio_buffer_refill', obj.iio_buffer);
             buffer = calllib(obj.libname, 'iio_buffer_first', obj.iio_buffer, obj.iio_channel{1});
             setdatatype(buffer, 'int32Ptr', obj.iio_buf_size);
