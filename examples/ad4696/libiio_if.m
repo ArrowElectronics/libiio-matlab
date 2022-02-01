@@ -478,7 +478,7 @@ classdef libiio_if < handle
             end
             
             % Select ADC Capture Mode (0 = Staggered; 1 = Continuous)
-            mode_val = 1;
+            mode_val = 0;
             % Write mode_val to 0x400 of the FPGA register
             calllib(obj.libname, 'iio_device_reg_write', obj.iio_dev, 0x400, mode_val);
             
