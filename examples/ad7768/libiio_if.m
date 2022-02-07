@@ -486,6 +486,8 @@ classdef libiio_if < handle
             % Convert the 2's compliment output from the buffer to
             % proper positive and negative values
             for i = 1 : obj.iio_buf_size
+                buffer.Value(i) = bitand(double(buffer.Value(i)), 0xFFFFFF);
+
                 if (buffer.Value(i) > 2^(diff_bits - 1))
                     buffer.Value(i) = double(buffer.Value(i) - 2.0^diff_bits);
                 else
