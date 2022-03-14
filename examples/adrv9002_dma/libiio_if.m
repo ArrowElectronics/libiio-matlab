@@ -202,8 +202,9 @@ classdef libiio_if < handle
             msg_log = [msg_log sprintf('%s: %s was found in the system\n', class(obj), obj.dev_name)];
 
             % Enable digital loopback
-            calllib(obj.libname, 'iio_device_debug_attr_write', obj.iio_dev, '1', mode_val);
-            
+            calllib(obj.libname, 'iio_device_debug_attr_write', obj.iio_dev, 'tx0_ssi_test_mode_loopback_en', '1');
+            calllib(obj.libname, 'iio_device_debug_attr_write', obj.iio_dev, 'tx1_ssi_test_mode_loopback_en', '1');
+
             % Set the return code to success
             ret = 0;
         end
@@ -364,6 +365,10 @@ classdef libiio_if < handle
         function delete(obj)
             % Release any resources used by the system object.
             if((obj.if_initialized == 1) && libisloaded(obj.libname))
+                % Disable digital loopback
+                calllib(obj.libname, 'iio_device_debug_attr_write', obj.iio_dev, 'tx0_ssi_test_mode_loopback_en', '0');
+                calllib(obj.libname, 'iio_device_debug_attr_write', obj.iio_dev, 'tx1_ssi_test_mode_loopback_en', '0');
+
                 if(~isempty(obj.iio_buffer))
                     calllib(obj.libname, 'iio_buffer_destroy', obj.iio_buffer);
                 end
